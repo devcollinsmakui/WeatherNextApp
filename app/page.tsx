@@ -5,6 +5,11 @@ import SevenDayForecast from "./components/seven-day";
 import Today from "./components/today";
 
 export default function Home() {
+  //open meteo
+
+  //weather API
+  //https://www.weatherapi.com/docs/
+  // https://www.c-sharpcorner.com/article/building-a-weather-app-with-next-js-and-tailwind/
   return (
     <main className="flex h-screen p-4 md:flex-row gap-4 md:overflow-hidden">
       <NavPane/>
