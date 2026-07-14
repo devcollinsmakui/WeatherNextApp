@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaDroplet, FaSun, FaTemperatureHalf, FaWind } from 'react-icons/fa6'
 
-const AirConditions = () => {
+const AirConditions = ({data}:any) => {
   return (
     <div className='flex flex-col h-full px-4 justify-around'>
         <div className='flex justify-between'>
@@ -13,7 +13,7 @@ const AirConditions = () => {
                 <FaTemperatureHalf className='text-gray-400 text-md'/>
                 <div>
                     <p className='text-gray-400 text-md'>Real Feel</p>
-                    <p className='font-bold text-2xl'>30°</p>
+                    <p className='font-bold text-2xl'>{data?.main?.feels_like}°</p>
                 </div>  
             </div>
 
@@ -21,7 +21,7 @@ const AirConditions = () => {
                 <FaWind className='text-gray-400 text-md'/>
                 <div>
                     <p className='text-gray-400 text-md'>Wind</p>
-                    <p className='font-bold text-2xl'>0.2 km/h</p>
+                    <p className='font-bold text-2xl'>{data?.wind?.speed | 0} km/h</p>
                 </div>  
             </div>
 
@@ -29,7 +29,7 @@ const AirConditions = () => {
                 <FaDroplet className='text-gray-400 text-md'/>
                 <div>
                     <p className='text-gray-400 text-md'>Chance of rain</p>
-                    <p className='font-bold text-2xl'>0%</p>
+                    <p className='font-bold text-2xl'>{data?.clouds?.all | 0}%</p>
                 </div>  
             </div>
 

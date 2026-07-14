@@ -22,7 +22,7 @@ const NavPane = () => {
                 </div>
                 <div className='flex flex-col items-center'>
                     <FaSliders />
-                    <p>Map</p>
+                    <p>Settings</p>
                 </div>
                 </div>
             </div>

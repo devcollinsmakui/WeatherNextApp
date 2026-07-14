@@ -9,6 +9,7 @@ import { FaSearch } from "react-icons/fa";
 import axios from "axios";
 import { useDebouncedCallback } from "use-debounce";
 import { usePathname, useSearchParams,useRouter } from "next/navigation";
+import { City } from "./definitions";
 
 export default function Home() {
   const [city, setCity] = useState('');
@@ -17,6 +18,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [showList, setShowList] = useState(false);
   const [currentWeather, setCurrentWeather] = useState({ });
+  const [hourlyForecast, setHourlyForecast] = useState({ });
+  const [dailyForecast, setDailyForecast] = useState({ });
 
   const apiKey = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
@@ -34,11 +37,22 @@ export default function Home() {
     setShowList(false);
     setSelectedCity(location);
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=imperial&appid=${apiKey}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=metric&appid=${apiKey}`;
+    const hourlyurl = `https://api.openweathermap.org/data/2.5/forecast?lat=${location.lat}&lon=${location.lon}&units=metric&cnt=${7}&appid=${apiKey}`;
+    // const daily = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${location.lat}&lon=${location.lon}&cnt=${7}&appid=${apiKey}`;
+    // const daily = `https://pro.openweathermap.org/data/2.5/forecast/climate?lat=${location.lat}&lon=${location.lon}&appid=${apiKey}`;
 
     axios.get(url).then((res)=>{
       setCurrentWeather(res.data);
     })
+
+    axios.get(hourlyurl).then((res) => {
+      setHourlyForecast(res.data);
+    })
+
+    // axios.get(daily).then((res)=>{
+    //   setDailyForecast(res.data);
+    // })
   }
 
   const searchParams = useSearchParams();
@@ -99,12 +113,12 @@ export default function Home() {
         <div className="grid md:grid-cols-3 md:gap-4 md:h-full md:overflow-hidden mt-2">
           <div className="col-span-2 flex flex-col h-full gap-4">
             <div className="flex-1"><Hero data={currentWeather} /></div>
-            <div className="flex-1 bg-gray-800 rounded-2xl p-2"><Today /></div>
+            <div className="flex-1 bg-gray-800 rounded-2xl p-2"><Today data={hourlyForecast} /></div>
             <div className="flex-1 bg-gray-800 rounded-2xl p-2">
-              <AirConditions />
+              <AirConditions data={currentWeather} />
             </div>
           </div>
-          <div className="bg-gray-800 rounded-2xl p-2"><SevenDayForecast /></div>
+          <div className="bg-gray-800 rounded-2xl p-2"><SevenDayForecast data={hourlyForecast} /></div>
         </div>
       </div>
     </main>
