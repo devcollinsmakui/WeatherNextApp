@@ -10,9 +10,10 @@ import axios from "axios";
 import { useDebouncedCallback } from "use-debounce";
 import { usePathname, useSearchParams,useRouter } from "next/navigation";
 import { City } from "./definitions";
+import { useQueryState } from "nuqs";
 
 export default function Home() {
-  const [city, setCity] = useState('');
+  const [city, setCity] = useQueryState("");
   const [locations, setLocations] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState<City>();
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,7 @@ export default function Home() {
     setSelectedCity(location);
 
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&units=metric&appid=${apiKey}`;
+    // const url = `https://api.openweathermap.org/data/4.0/onecall/current?lat=${location.lat}&lon=${location.lon}&appid=${apiKey}`
     const hourlyurl = `https://api.openweathermap.org/data/2.5/forecast?lat=${location.lat}&lon=${location.lon}&units=metric&cnt=${7}&appid=${apiKey}`;
     // const daily = `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${location.lat}&lon=${location.lon}&cnt=${7}&appid=${apiKey}`;
     // const daily = `https://pro.openweathermap.org/data/2.5/forecast/climate?lat=${location.lat}&lon=${location.lon}&appid=${apiKey}`;
@@ -86,7 +88,7 @@ export default function Home() {
         <div className="w-2/3">
           <div className="flex items-center gap-2 text-gray-400 rounded bg-gray-800 p-1 px-2">
             <input type="search" name="" id="" placeholder="Search for cities" className="bg-gray-800 w-full rounded col-span-2 focus:outline-none" 
-            value={city} onChange={(e) => setCity(e.target.value)} />
+            value={city as string} onChange={(e) => setCity(e.target.value)} />
             <div className="bg-gray-600 rounded p-1 px-2 w-8 text-center">
               <FaSearch className="text-sm" onClick={handleSearch} />
             </div>
